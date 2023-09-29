@@ -13,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ToolTip from "@material-ui/core/ToolTip";
+import ToolTip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 
 import themeObject from "../util/theme";

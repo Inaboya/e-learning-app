@@ -13,12 +13,12 @@ import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ToolTip from "@material-ui/core/ToolTip";
+import ToolTip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 
 import themeObject from "../util/theme";
-import EditUser from "../components/EditUser";
-import AssignClassTeacher from "../components/AssignClassTeacher";
+import AddClass from "../components/AddClass";
+import EditClass from "../components/EditClass";
 import StyledTableCell from "../components/StyledTableCell";
 import StyledTableRow from "../components/StyledTableRow";
 
@@ -27,20 +27,19 @@ import { Context as AuthContext } from "../context/AuthContext";
 
 const styles = themeObject;
 
-const Teacher = ({ classes }) => {
+const Class = ({ classes }) => {
   const {
-    state: { alert, classListing },
+    state: { alert, classListing, isLoading },
     clearAlert,
     fetchClasses,
     deleteClass,
   } = useContext(ClassContext);
   const {
-    state: { usersListing, isLoading },
+    state: { usersListing },
     fetchUsers,
-    deleteUser,
   } = useContext(AuthContext);
 
-  let teacher = usersListing.filter((user) => user.userType === "teacher");
+  let teachers = usersListing.filter((user) => user.userType === "teacher");
 
   let token = localStorage.getItem("token");
 
@@ -54,7 +53,7 @@ const Teacher = ({ classes }) => {
   }
 
   const handleDelete = (id) => {
-    deleteUser({ id });
+    deleteClass({ id });
   };
 
   return (
@@ -66,7 +65,8 @@ const Teacher = ({ classes }) => {
             className={classes.pageTitle}
             color="primary"
           >
-            Teacher Info
+            Welcome to Classes
+            <AddClass teachers={teachers} />
           </Typography>
           <div className={classes.alert}>
             {alert ? (
@@ -93,60 +93,44 @@ const Teacher = ({ classes }) => {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>ID</StyledTableCell>
-                  <StyledTableCell align="right">Name</StyledTableCell>
-                  <StyledTableCell align="right">Email</StyledTableCell>
-                  <StyledTableCell align="right">User Type</StyledTableCell>
-                  <StyledTableCell align="right">Phone Number</StyledTableCell>
-                  <StyledTableCell align="right">Image</StyledTableCell>
+                  <StyledTableCell align="right">Class Code</StyledTableCell>
+                  <StyledTableCell align="right">Class Name</StyledTableCell>
                   <StyledTableCell align="right">
-                    Class Assigned
+                    Assigned Teacher
                   </StyledTableCell>
+                  <StyledTableCell align="right">Subject</StyledTableCell>
                   <StyledTableCell align="right">Actions</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {teacher.map((user, i) => {
+                {classListing.map((item, i) => {
                   return (
                     <StyledTableRow key={i}>
                       <StyledTableCell component="th" scope="row">
                         {i + 1}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {user.name}
+                        {item.classCode}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {user.email}
+                        {item.className}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {user.userType}
+                        {item.teacherId}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        {user.phoneNumber}
+                        {item.subject}
                       </StyledTableCell>
+
                       <StyledTableCell align="right">
-                        <img
-                          src={user.profileImage}
-                          alt="image"
-                          className={classes.image}
+                        <EditClass
+                          classNames={item.className}
+                          classCodes={item.classCode}
+                          subjects={item.subject}
+                          id={item._id}
                         />
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        {classListing.map((item) => {
-                          return item.teacherId === user._id
-                            ? item.className + ", "
-                            : null;
-                        })}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">
-                        <AssignClassTeacher teacherId={user._id} />
-                        <EditUser
-                          names={user.name}
-                          emails={user.email}
-                          phoneNumbers={user.phoneNumber}
-                          id={user._id}
-                        />
-                        <ToolTip title="Delete User" placement="top">
-                          <IconButton onClick={() => handleDelete(user._id)}>
+                        <ToolTip title="Delete Class" placement="top">
+                          <IconButton onClick={() => handleDelete(item._id)}>
                             <DeleteIcon
                               color="primary"
                               style={{ fontSize: 40 }}
@@ -166,4 +150,4 @@ const Teacher = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Teacher);
+export default withStyles(styles)(Class);

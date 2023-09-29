@@ -13,12 +13,12 @@ import Paper from "@material-ui/core/Paper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ToolTip from "@material-ui/core/ToolTip";
+import ToolTip from "@material-ui/core/Tooltip";
 import Alert from "@material-ui/lab/Alert";
 
 import themeObject from "../util/theme";
 import EditUser from "../components/EditUser";
-import AssignClassStudent from "../components/AssignClassStudent";
+import AssignClassTeacher from "../components/AssignClassTeacher";
 import StyledTableCell from "../components/StyledTableCell";
 import StyledTableRow from "../components/StyledTableRow";
 
@@ -27,7 +27,7 @@ import { Context as AuthContext } from "../context/AuthContext";
 
 const styles = themeObject;
 
-const Student = ({ classes }) => {
+const Teacher = ({ classes }) => {
   const {
     state: { alert, classListing },
     clearAlert,
@@ -40,7 +40,7 @@ const Student = ({ classes }) => {
     deleteUser,
   } = useContext(AuthContext);
 
-  let students = usersListing.filter((user) => user.userType === "student");
+  let teacher = usersListing.filter((user) => user.userType === "teacher");
 
   let token = localStorage.getItem("token");
 
@@ -66,7 +66,7 @@ const Student = ({ classes }) => {
             className={classes.pageTitle}
             color="primary"
           >
-            Student Info
+            Teacher Info
           </Typography>
           <div className={classes.alert}>
             {alert ? (
@@ -105,7 +105,7 @@ const Student = ({ classes }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {students.map((user, i) => {
+                {teacher.map((user, i) => {
                   return (
                     <StyledTableRow key={i}>
                       <StyledTableCell component="th" scope="row">
@@ -132,13 +132,13 @@ const Student = ({ classes }) => {
                       </StyledTableCell>
                       <StyledTableCell align="right">
                         {classListing.map((item) => {
-                          return item.students.includes(user._id)
-                            ? item.className
+                          return item.teacherId === user._id
+                            ? item.className + ", "
                             : null;
                         })}
                       </StyledTableCell>
                       <StyledTableCell align="right">
-                        <AssignClassStudent studentId={user._id} />
+                        <AssignClassTeacher teacherId={user._id} />
                         <EditUser
                           names={user.name}
                           emails={user.email}
@@ -166,4 +166,4 @@ const Student = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(Student);
+export default withStyles(styles)(Teacher);

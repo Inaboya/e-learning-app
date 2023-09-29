@@ -43,7 +43,7 @@ const Navbar = ({ classes }) => {
       <AppBar>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h5" color="inherit" className={classes.Header}>
-            Leaning Management System
+            e-Learning Management System
           </Typography>
 
           <Fragment>

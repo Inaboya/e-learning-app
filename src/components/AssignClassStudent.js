@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ToolTip from "@material-ui/core/ToolTip";
+import ToolTip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import AssignmentIndIcon from "@material-ui/icons/AssignmentInd";
 import CloseIcon from "@material-ui/icons/Close";
@@ -17,18 +17,18 @@ import { Context as ClassContext } from "../context/ClassContext";
 
 const styles = themeObject;
 
-const AssignClassTeacher = ({ classes, teacherId }) => {
+const AssignClassStudent = ({ classes, studentId }) => {
   const {
     state: { classListing },
-    assignClassTeacher,
+    assignClassStudent,
   } = useContext(ClassContext);
   const [open, setOpen] = useState(false);
   const [classId, setClassId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    assignClassTeacher({
-      teacherId,
+    assignClassStudent({
+      studentId,
       classId,
     });
     setOpen(false);
@@ -64,7 +64,7 @@ const AssignClassTeacher = ({ classes, teacherId }) => {
               select
               label="Class"
               value={classId}
-              placeholder="Assign Class to Teacher"
+              placeholder="Select Class for Student"
               className={classes.textField}
               onChange={(event) => setClassId(event.target.value)}
               fullWidth
@@ -90,4 +90,4 @@ const AssignClassTeacher = ({ classes, teacherId }) => {
   );
 };
 
-export default withStyles(styles)(AssignClassTeacher);
+export default withStyles(styles)(AssignClassStudent);

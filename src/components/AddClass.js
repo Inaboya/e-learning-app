@@ -7,54 +7,40 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ToolTip from "@material-ui/core/ToolTip";
+import ToolTip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CloseIcon from "@material-ui/icons/Close";
 import MenuItem from "@material-ui/core/MenuItem";
 
-import { Context as AuthContext } from "../context/AuthContext";
+import { Context as ClassContext } from "../context/ClassContext";
 
 const styles = themeObject;
 
-const AddUser = ({ classes }) => {
-  const { state, createUser } = useContext(AuthContext);
+const AddClass = ({ classes, teachers }) => {
+  const { state, createClass } = useContext(ClassContext);
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [userType, setUserType] = useState("");
+  const [className, setClassName] = useState("");
+  const [classCode, setClassCode] = useState("");
+  const [subject, setSubject] = useState("");
+  const [teacherId, setTeacherId] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser({
-      name: name,
-      email: email,
-      phoneNumber: phoneNumber,
-      userType: userType,
-      profileImage: "",
+    createClass({
+      className: className,
+      classCode: classCode,
+      subject: subject,
+      teacherId: teacherId,
     });
     setOpen(false);
   };
 
-  const userTypes = [
-    {
-      value: "student",
-      label: "Student",
-    },
-    {
-      value: "teacher",
-      label: "Teacher",
-    },
-    {
-      value: "head",
-      label: "Head",
-    },
-  ];
+  const teacherList = teachers;
 
   return (
     <Fragment>
-      <ToolTip title="Add a User" placement="top">
+      <ToolTip title="Add a Class" placement="top">
         <IconButton onClick={() => setOpen(!open)}>
           <AddCircleIcon color="primary" style={{ fontSize: 40 }} />
         </IconButton>
@@ -74,54 +60,54 @@ const AddUser = ({ classes }) => {
             <CloseIcon />
           </IconButton>
         </ToolTip>
-        <DialogTitle> New User </DialogTitle>
+        <DialogTitle> New Class </DialogTitle>
         <DialogContent>
           <form noValidate onSubmit={handleSubmit}>
             <TextField
-              name="name"
-              type="text"
-              label="Name"
-              placeholder="Enter User Name"
+              name="classCode"
+              type="classCode"
+              label="Class Code"
+              placeholder="Enter Class Code"
               className={classes.textField}
-              onChange={(event) => setName(event.target.value)}
+              onChange={(event) => setClassCode(event.target.value)}
               fullWidth
-              value={name}
+              value={classCode}
             />
             <TextField
-              name="email"
-              type="email"
-              label="Email"
-              placeholder="Enter User Email"
+              name="className"
+              type="className"
+              label="Class Name"
+              placeholder="Enter Class Name"
               className={classes.textField}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => setClassName(event.target.value)}
               fullWidth
-              value={email}
+              value={className}
             />
             <TextField
-              name="userType"
+              name="teacher"
               select
-              label="User Type"
-              value={userType}
-              placeholder="Enter User Type"
+              label="Teacher"
+              value={teacherId}
+              placeholder="Select Teacher for Class"
               className={classes.textField}
-              onChange={(event) => setUserType(event.target.value)}
+              onChange={(event) => setTeacherId(event.target.value)}
               fullWidth
             >
-              {userTypes.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
+              {teacherList.map((option) => (
+                <MenuItem key={option._id} value={option._id}>
+                  {option.name}
                 </MenuItem>
               ))}
             </TextField>
             <TextField
-              name="phone"
+              name="subject"
               type="text"
-              label="Phone Number"
-              placeholder="Enter Phone Number"
+              label="Subject"
+              placeholder="Enter Subject"
               className={classes.textField}
-              onChange={(event) => setPhoneNumber(event.target.value)}
+              onChange={(event) => setSubject(event.target.value)}
               fullWidth
-              value={phoneNumber}
+              value={subject}
             />
             <Button
               type="submit"
@@ -129,7 +115,7 @@ const AddUser = ({ classes }) => {
               color="primary"
               className={classes.submitButton}
             >
-              Submit
+              Create
             </Button>
           </form>
         </DialogContent>
@@ -138,4 +124,4 @@ const AddUser = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(AddUser);
+export default withStyles(styles)(AddClass);

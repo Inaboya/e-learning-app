@@ -1,6 +1,6 @@
 import teal from "@material-ui/core/colors/teal";
 
-const theme = {
+const themeObject = {
   palette: {
     primary: teal,
     secondary: {
@@ -148,4 +148,4 @@ const theme = {
   },
 };
 
-export default theme;
+export default themeObject;

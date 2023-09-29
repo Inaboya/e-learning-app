@@ -4,10 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //  Material UI
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import {createMuiTheme} from "@material-ui/core/styles";
 import themeObject from "./util/theme";
-
-//  Context
 
 
 //  Components
@@ -54,8 +52,4 @@ function App() {
   );
 }
 
-export default () => {
-  return (
-    
-  );
-};
+export default App;
